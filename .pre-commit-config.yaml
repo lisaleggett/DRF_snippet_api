@@ -1,0 +1,21 @@
+# Copied from PolarRouteServer as a test
+
+repos:
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  # Ruff version.
+  rev: v0.4.3
+  hooks:
+    # Run the linter.
+    - id: ruff
+    # Run the formatter.
+    - id: ruff-format
+
+- repo: local
+  hooks:
+    - id: update-api-schema
+      name: Update API Schema
+      entry: bash -c 'python manage.py spectacular --color --validate --fail-on-warn --file docs/apischema.yml && git add docs/apischema.yml'
+      language: system
+      files: '^tutorial/snippets/(views)\.py$'
+      pass_filenames: false
+      stages: [pre-commit]
