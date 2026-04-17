@@ -1,0 +1,91 @@
+# This was copied from PolarRouteServer as a test
+
+[project]
+name = "Tutorial"
+authors = [
+  {name = "Lisa Leggett", email = "lisa.leggett@bas.ac.uk"},
+]
+description = "Tutorial to practice using DRF for a toy Web Snippts API"
+readme = "README.md"
+license = {file = "LICENSE"}
+dynamic = ["version"]
+requires-python = ">= 3.10"
+dependencies = [
+    "Django>=5.2,<6",
+    "django-rest-framework",
+    "drf-spectacular[sidecar]",
+]
+
+[project.urls]
+Repository = "https://github.com/lisaleggett/DRF_snippet_api"
+Issues = "https://github.com/lisaleggett/DRF_snippet_api/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+exclude = ["tests*"]
+
+[tool.setuptools_scm]
+version_file = "tutorial/_version.py"
+
+[tool.setuptools.exclude-package-data]
+tutorial = [
+    "*.sqlite3",
+]
+
+[project.optional-dependencies]
+dev = [
+    "django-debug-toolbar",
+    "pre-commit",
+    "pytest",
+    "pytest-celery",
+    "pytest-django",
+    "ruff",
+]
+prod = [
+
+]
+build = [
+    "build"
+]
+cov = [
+    "pytest-cov"
+]
+cov-badge = [
+    "coverage-badge"
+]
+
+[dependency-groups]
+docs = [
+    "mkdocs",
+    "mkdocs-material",
+    "mkdocs-autoapi",
+    "mkdocs-include-markdown-plugin",
+    "mkdocstrings[python]",
+    "mkdocs-render-swagger-plugin",
+]
+
+[project.scripts]
+tutorial = "tutorial.__main__:main"
+
+[tool.ruff]
+exclude = ["tests/*"]
+
+[tool.ruff.lint.per-file-ignores]
+"tutorial/settings/*" = [
+    "F401", # ignore unused imports in settings files
+    ] 
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "tutorial.settings.test"
+addopts = "--create-db"
+filterwarnings =  "error::RuntimeWarning" # turn RuntimeWarnings into errors/test failures
+testpaths = [
+    "tests"
+]
+
+[tool.coverage.run]
+branch = true
+omit = [
+    "*/migrations/*",
+    "*/__init__.py",
+    ]
